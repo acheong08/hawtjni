@@ -41,8 +41,8 @@
         <jetty-plugin-version>9.4.28.v20200408</jetty-plugin-version>
         <scala-plugin-version>2.9</scala-plugin-version>
         <scala-version>2.9.3</scala-version>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.outputTimestamp>2020-12-13T22:04:00Z</project.build.outputTimestamp>
     </properties>
 
