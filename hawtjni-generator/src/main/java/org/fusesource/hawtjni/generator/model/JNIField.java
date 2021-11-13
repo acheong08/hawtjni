@@ -27,10 +27,11 @@ public interface JNIField {
     public JNIType getType64();
 
     public JNIClass getDeclaringClass();
-    public String getAccessor();
+    public JNIFieldAccessor getAccessor();
     public String getCast();
     public String getConditional();
     public boolean ignore();
 
+    public boolean isSharedPointer();
     public boolean isPointer();
 }

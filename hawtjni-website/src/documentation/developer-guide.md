@@ -68,7 +68,7 @@ If you are not familiar with Maven, please checkout
 [Maven by Example](http://www.sonatype.com/books/mvnex-book/reference/public-book.html).
 
 The easiest way to get started with HawtJNI is copy and use 
-[the example Maven project](http://github.com/fusersource/hawtjni/tree/master/hawtjni-example/) as a template for your module.
+[the example Maven project](http://github.com/fusesource/hawtjni/tree/master/hawtjni-example/) as a template for your module.
 
 At the root of the Maven project run:
 {pygmentize:: text}
@@ -793,6 +793,22 @@ jarred and attached to the Maven build with a platform specific classifier.
 agnostic source package for building the native library.
 
 ## Platform Build Tools Requirements
+
+### macOS
+
+Use brew to install the necessary tools:
+
+    brew install automake autoconf libtool gcc
+
+Make sure the GCC compiler is used by default:
+
+    cd /usr/local/bin
+    ln -s c++-9 c++
+    ln -s cpp-9 cpp
+    ln -s g++-9 g++
+    ln -s gcc-9 gcc
+    export PATH=/usr/local/bin:$PATH
+    rehash
 
 ### Windows
 

@@ -9,8 +9,20 @@
 #include "foo.h"
 #include <stdio.h>
 
+float get_d(struct foo *arg) {
+    return 0.0f;
+}
+void set_d(struct foo *arg, float d) {
+}
+
+std::shared_ptr<intptr_t> get_sp(long CheckStr) {
+    return std::make_shared<intptr_t> (CheckStr);
+}
+void set_sp(struct foo *arg, std::shared_ptr<intptr_t> ptr) {
+}
+
 void print_foo(struct foo *arg) {
-   printf("foo@%p: { a: %d, b: %d, c: \"%s\", prev: @%p}\n", arg, arg->a, (int)arg->b, arg->c, arg->prev);
+    printf("foo@%p: { a: %d, b: %d, c: \"%s\", prev: @%p, d: %f, Checkstr: %p}\n", arg, arg->a, (int)arg->b, arg->c, arg->prev, get_d(arg), get_sp(arg->CheckStr).get());
 }
 
 size_t foowork(struct foo **arg, int count) {
@@ -37,13 +49,13 @@ int callproduct(t_somefunc prod) {
 }
 
 struct foo * foo_add(struct foo *arg, int count) {
-  return arg+count;
+    return arg+count;
 }
 
 char * char_add(char *arg, int count) {
-  return arg+count;
+    return arg+count;
 }
 
 void passingtheenv (const char *who, JNIEnv *env) {
-   printf("%s, the JNIEnv is at: %x\n", who, env);
+    printf("%s, the JNIEnv is at: %p\n", who, env);
 }

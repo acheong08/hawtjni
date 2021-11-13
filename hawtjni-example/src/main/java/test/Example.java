@@ -88,6 +88,7 @@ public class Example {
     public static int O_WRONLY;
     @JniField(flags={CONSTANT})
     public static int O_RDWR;
+
     
     @JniMethod(cast="void *")
     public static final native long malloc(
@@ -222,6 +223,12 @@ public class Example {
         @JniField(cast="struct foo *")
         public long prev;
 
+        @JniField(getter = "get_d()", setter = "set_d()", flags = { GETTER_NONMEMBER, SETTER_NONMEMBER })
+        private float d;
+
+        @JniField(getter = "get_sp()", setter = "set_sp()", flags={ SHARED_PTR, GETTER_NONMEMBER, SETTER_NONMEMBER })
+        private long CheckStr;
+
         @Override
         public int hashCode() {
             final int prime = 31;
@@ -231,6 +238,7 @@ public class Example {
             result = prime * result + Arrays.hashCode(c);
             result = prime * result + c5;
             result = prime * result + (int) (prev ^ (prev >>> 32));
+            result = prime * result + Float.valueOf(d).hashCode();
             return result;
         }
 
@@ -253,12 +261,15 @@ public class Example {
                 return false;
             if (prev != other.prev)
                 return false;
+            if (d != other.d) {
+                return false;
+            }
             return true;
         }
 
         @Override
         public String toString() {
-            return "foo [a=" + a + ", b=" + b + ", c=" + Arrays.toString(c) + ", c5=" + c5 + ", prev=" + prev + "]";
+            return "foo [a=" + a + ", b=" + b + ", c=" + Arrays.toString(c) + ", c5=" + c5 + ", prev=" + prev + ", d=" + d + "]";
         }
     }    
     
@@ -283,7 +294,7 @@ public class Example {
     @JniMethod(cast = "char *")
     public static final native long char_add(@JniArg(cast="char *")long ptr, int count);
 
-        @JniClass(flags={ClassFlag.STRUCT, ClassFlag.TYPEDEF})
+    @JniClass(flags={ClassFlag.STRUCT, ClassFlag.TYPEDEF})
     static public class point {
         static {
             LIBRARY.load();
@@ -330,4 +341,15 @@ public class Example {
 
     public static final native void passingtheenv (String msg, JNIEnv env);
 
+    @JniClass(flags={ClassFlag.STRUCT})
+    static class ClassWithAccessors {
+        static {
+            LIBRARY.load();
+        }
+
+        @JniField(getter = "get_e()", setter = "set_e()")
+        private float e;
+
+
+    }
 }
