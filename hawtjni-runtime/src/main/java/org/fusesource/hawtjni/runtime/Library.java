@@ -332,7 +332,7 @@ public class Library {
                     if (STRATEGY_SHA1.equals(STRATEGY)) {
                         target = extractSha1(errors, resource, prefix, targetLibName, path);
                     } else {
-                    File target = extract(errors, resource, prefix, targetLibName, path);
+                        target = extractTemp(errors, resource, prefix, targetLibName, path);
                     }
                     if( target!=null ) {
                         if( load(errors, target) ) {
@@ -459,7 +459,7 @@ public class Library {
             if (tempExtractDir == null) {
                 tempExtractDir = Files.createTempDirectory(directory.toPath(), prefix);
             }
-        	
+
             FileOutputStream os = null;
             InputStream is = null;
             try {
