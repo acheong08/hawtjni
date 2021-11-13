@@ -1,13 +1,13 @@
 /**
  * Copyright (C) 2009-2011 FuseSource Corp.
  * http://fusesource.com
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *    http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -45,9 +45,9 @@ import org.fusesource.hawtjni.runtime.Library;
 /**
  * This goal builds the JNI module which was previously
  * generated with the generate goal.  It adds the JNI module
- * to the test resource path so that unit tests can load 
+ * to the test resource path so that unit tests can load
  * the freshly built JNI library.
- * 
+ *
  * @author <a href="http://hiramchirino.com">Hiram Chirino</a>
  */
 @Mojo(name = "build", defaultPhase = LifecyclePhase.GENERATE_TEST_RESOURCES)
@@ -58,7 +58,7 @@ public class BuildMojo extends AbstractMojo {
      */
     @Parameter(defaultValue = "${project}", readonly = true)
     protected MavenProject project;
-    
+
     /**
      * Remote repositories
      */
@@ -82,18 +82,18 @@ public class BuildMojo extends AbstractMojo {
      */
     @Component
     protected ArtifactResolver artifactResolver;
-    
+
     /**
      */
     @Component
-    private ArchiverManager archiverManager;    
+    private ArchiverManager archiverManager;
 
     /**
      * The base name of the library, used to determine generated file names.
      */
     @Parameter(defaultValue = "${project.artifactId}")
     private String name;
-    
+
     /**
      * Where the unpacked build package is located.
      */
@@ -103,7 +103,7 @@ public class BuildMojo extends AbstractMojo {
     /**
      * The output directory where the built JNI library will placed.  This directory will be added
      * to as a test resource path so that unit tests can verify the built JNI library.
-     * 
+     *
      * The library will placed under the META-INF/native/${platform} directory that the HawtJNI
      * Library uses to find JNI libraries as classpath resources.
      */
@@ -122,13 +122,13 @@ public class BuildMojo extends AbstractMojo {
      */
     @Parameter(defaultValue = "${skip-autogen}")
     private boolean skipAutogen;
-    
+
     /**
      * Should we force executing the autogen.sh file.
      */
     @Parameter(defaultValue = "${force-autogen}")
     private boolean forceAutogen;
-    
+
     /**
      * Extra arguments you want to pass to the autogen.sh command.
      */
@@ -146,7 +146,7 @@ public class BuildMojo extends AbstractMojo {
      */
     @Parameter(defaultValue = "${force-configure}")
     private boolean forceConfigure;
-    
+
     /**
      * Should we display all the native build output?
      */
@@ -158,27 +158,27 @@ public class BuildMojo extends AbstractMojo {
      */
     @Parameter
     private List<String> configureArgs;
-    
+
     /**
      * The platform identifier of this build.  If not specified,
      * it will be automatically detected.
      */
     @Parameter
-    private String platform;    
-    
+    private String platform;
+
     /**
      * The classifier of the package archive that will be created.
      */
     @Parameter(defaultValue = "native-src")
-    private String sourceClassifier;  
-    
+    private String sourceClassifier;
+
     /**
      * If the source build could not be fully generated, perhaps the autotools
      * were not available on this platform, should we attempt to download
      * a previously deployed source package and build that?
      */
     @Parameter(defaultValue = "true")
-    private boolean downloadSourcePackage = true;  
+    private boolean downloadSourcePackage = true;
 
     /**
      * The dependency to download to get the native sources.
@@ -220,23 +220,23 @@ public class BuildMojo extends AbstractMojo {
             } else {
                 configureBasedBuild(buildDir);
             }
-            
+
             getLog().info("Adding test resource root: "+libDirectory.getAbsolutePath());
             Resource testResource = new Resource();
             testResource.setDirectory(libDirectory.getAbsolutePath());
-            this.project.addTestResource(testResource); //();
-            
+            project.addTestResource(testResource); //();
+
         } catch (Exception e) {
             throw new MojoExecutionException("build failed: "+e, e);
-        } 
+        }
     }
 
     private void vsBasedBuild(File buildDir) throws CommandLineException, MojoExecutionException, IOException {
-    	
+
         FileUtils.copyDirectoryStructureIfModified(packageDirectory, buildDir);
 
         Library library = new Library(name);
-        String libPlatform = this.platform != null ? this.platform : Library.getPlatform();
+        String libPlatform = platform != null ? platform : Library.getPlatform();
         String platform;
         String configuration="release";
         if( "windows32".equals(libPlatform) ) {
@@ -260,7 +260,9 @@ public class BuildMojo extends AbstractMojo {
                         vcinstalldir.contains("Microsoft Visual Studio 11") ||
                         vcinstalldir.contains("Microsoft Visual Studio 12") ||
                         vcinstalldir.contains("Microsoft Visual Studio 14") ||
-                        vcinstalldir.contains("Microsoft Visual Studio\\2017")
+                        vcinstalldir.contains("Microsoft Visual Studio\\2017") ||
+                        vcinstalldir.contains("Microsoft Visual Studio\\2019") ||
+                        vcinstalldir.contains("Microsoft Visual Studio\\2022")
                       ) {
                         useMSBuild = true;
                     }
@@ -291,19 +293,19 @@ public class BuildMojo extends AbstractMojo {
         File libFile=FileUtils.resolveFile(buildDir, "target/"+platform+"-"+configuration+"/lib/"+library.getLibraryFileName());
         if( !libFile.exists() ) {
             throw new MojoExecutionException("vcbuild did not generate: "+libFile);
-        }        
+        }
 
         File target=FileUtils.resolveFile(libDirectory, library.getPlatformSpecificResourcePath(libPlatform));
         FileUtils.copyFile(libFile, target);
 
 	}
 
-    
+
 	private void configureBasedBuild(File buildDir) throws IOException, MojoExecutionException, CommandLineException {
-        
+
         File configure = new File(packageDirectory, "configure");
         if( configure.exists() ) {
-            FileUtils.copyDirectoryStructureIfModified(packageDirectory, buildDir);            
+            FileUtils.copyDirectoryStructureIfModified(packageDirectory, buildDir);
         } else if (downloadSourcePackage) {
             downloadNativeSourcePackage(buildDir);
         } else {
@@ -315,11 +317,11 @@ public class BuildMojo extends AbstractMojo {
         configure = new File(buildDir, "configure");
         File autogen = new File(buildDir, "autogen.sh");
         File makefile = new File(buildDir, "Makefile");
-        
+
         File distDirectory = new File(buildDir, "target");
         File distLibDirectory = new File(distDirectory, "lib");
         distLibDirectory.mkdirs();
-        
+
         if( autogen.exists() && !skipAutogen ) {
             if( (!configure.exists() && !CLI.IS_WINDOWS) || forceAutogen ) {
                 cli.setExecutable(autogen);
@@ -329,10 +331,10 @@ public class BuildMojo extends AbstractMojo {
                 }
             }
         }
-        
+
         if( configure.exists() && !skipConfigure ) {
             if( !makefile.exists() || forceConfigure ) {
-                
+
                 File autotools = new File(buildDir, "autotools");
                 File[] listFiles = autotools.listFiles();
                 if( listFiles!=null ) {
@@ -340,7 +342,7 @@ public class BuildMojo extends AbstractMojo {
                         cli.setExecutable(file);
                     }
                 }
-                
+
                 cli.setExecutable(configure);
                 int rc = cli.system(buildDir, new String[]{"./configure", "--disable-ccache", "--prefix="+distDirectory.getCanonicalPath(), "--libdir="+distDirectory.getCanonicalPath()+"/lib"}, configureArgs);
                 if( rc != 0 ) {
@@ -348,27 +350,27 @@ public class BuildMojo extends AbstractMojo {
                 }
             }
         }
-        
+
         int rc = cli.system(buildDir, new String[]{"make", "install"});
         if( rc != 0 ) {
             throw new MojoExecutionException("make based build failed with exit code: "+rc);
         }
-        
+
         Library library = new Library(name);
-        
+
         File libFile = new File(distLibDirectory, library.getLibraryFileName());
         if( !libFile.exists() ) {
             throw new MojoExecutionException("Make based build did not generate: "+libFile);
         }
-        
+
         if( platform == null ) {
             platform = library.getPlatform();
         }
-        
+
         File target=FileUtils.resolveFile(libDirectory, library.getPlatformSpecificResourcePath(platform));
         FileUtils.copyFile(libFile, target);
     }
-    
+
     public void downloadNativeSourcePackage(File buildDir) throws MojoExecutionException  {
         File packageZipFile;
         if( nativeSrcUrl ==null || nativeSrcUrl.trim().length()==0 ) {
@@ -417,7 +419,7 @@ public class BuildMojo extends AbstractMojo {
         try {
             File dest = new File(buildDirectory, "native-build-extracted");
             getLog().info("Extracting "+packageZipFile+" to "+dest);
-            
+
             UnArchiver unArchiver = archiverManager.getUnArchiver("zip");
             unArchiver.setSourceFile(packageZipFile);
             unArchiver.extract("", dest);
@@ -427,13 +429,13 @@ public class BuildMojo extends AbstractMojo {
             if( source==null ) {
                 throw new MojoExecutionException("Extracted package did not look like it contained a native source build.");
             }
-            FileUtils.copyDirectoryStructureIfModified(source, buildDir);            
-            
+            FileUtils.copyDirectoryStructureIfModified(source, buildDir);
+
         } catch (MojoExecutionException e) {
             throw e;
         } catch (Throwable e) {
             throw new MojoExecutionException("Could not extract the native source package.", e);
-        }            
+        }
     }
 
     private File findSourceRoot(File dest) {
