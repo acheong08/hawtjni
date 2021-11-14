@@ -12,6 +12,9 @@ package org.fusesource.hawtjni.runtime;
 import java.io.*;
 import java.lang.reflect.Method;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -84,6 +87,8 @@ public class Library {
     public static final String STRATEGY_PROPERTY = "hawtjni.strategy";
     public static final String STRATEGY_SHA1 = "sha1";
     public static final String STRATEGY_TEMP = "temp";
+
+    private static Path tempExtractDir = null;
 
     static final String SLASH = System.getProperty("file.separator");
 
@@ -313,7 +318,6 @@ public class Library {
 
             int idx = targetLibName.lastIndexOf('.');
             String prefix = targetLibName.substring(0, idx)+"-";
-            String suffix = targetLibName.substring(idx);
 
             // Use the user provided path,
             // then fallback to the java temp directory,
@@ -326,9 +330,9 @@ public class Library {
                     // Try to extract it to the custom path...
                     File target;
                     if (STRATEGY_SHA1.equals(STRATEGY)) {
-                        target = extractSha1(errors, resource, prefix, suffix, path);
+                        target = extractSha1(errors, resource, prefix, targetLibName, path);
                     } else {
-                        target = extractTemp(errors, resource, prefix, suffix, path);
+                        target = extractTemp(errors, resource, prefix, targetLibName, path);
                     }
                     if( target!=null ) {
                         if( load(errors, target) ) {
@@ -441,7 +445,7 @@ public class Library {
         return sha1;
     }
 
-    private File extractTemp(ArrayList<Throwable> errors, URL source, String prefix, String suffix, File directory) {
+    private File extractTemp(ArrayList<Throwable> errors, URL source, String prefix, String targetLibName, File directory) {
         File target = null;
         directory = directory.getAbsoluteFile();
         if (!directory.exists()) {
@@ -451,10 +455,16 @@ public class Library {
             }
         }
         try {
+            //Create a single temporary directory to allow extracting multiple libraries w/o renaming them
+            if (tempExtractDir == null) {
+                tempExtractDir = Files.createTempDirectory(directory.toPath(), prefix);
+            }
+
             FileOutputStream os = null;
             InputStream is = null;
             try {
-                target = File.createTempFile(prefix, suffix, directory);
+                Path targetPath = Paths.get(tempExtractDir.toString(), targetLibName);
+            	  target = Files.createFile(targetPath).toFile();
                 is = source.openStream();
                 if (is != null) {
                     byte[] buffer = new byte[4096];

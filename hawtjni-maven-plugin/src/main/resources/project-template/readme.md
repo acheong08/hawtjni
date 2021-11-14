@@ -36,11 +36,15 @@ and libtool.
 Building on Windows
 -------------------
 
-Download and install the free [Microsoft Windows SDK][1].  The SDK includes
+Download and install the free [Microsoft Windows SDK/ Community Edition][1].  The SDK/Community edition includes
 all the headers, libraries, and build tools needed to compile the JNI library.
 
 Set the `JAVA_HOME` environment variable to the location where your JDK is 
-installed.  
+installed.
+
+The defaults in the example are now configured for VS 2022, adjust accordingly if you are on a previous release.
+
+Note that the file used is still called vs2010 as the format has not changed.
 
 Use the installed command window and change to the directory that this file is located in and then run: 
 
@@ -53,5 +57,5 @@ For legacy SDK Versions:
 		vcbuild vs2008.vcproj
 
 The dll files will be located under the target directory.
-    
+
 [1]: https://developer.microsoft.com/en-us/windows/downloads

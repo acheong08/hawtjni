@@ -271,7 +271,6 @@ public class Example {
         public String toString() {
             return "foo [a=" + a + ", b=" + b + ", c=" + Arrays.toString(c) + ", c5=" + c5 + ", prev=" + prev + ", d=" + d + "]";
         }
-        
     }    
     
     public static final native void memmove (
@@ -285,6 +284,8 @@ public class Example {
             @JniArg(cast="size_t") long size);
 
     public static final native void print_foo(@JniArg(cast="struct foo *")long ptr);
+    
+    @JniMethod(cast = "size_t")
     public static final native long foowork (@JniArg(cast="struct foo **") long[] foos, int count);
 
     @JniMethod(cast = "struct foo *")
@@ -313,6 +314,11 @@ public class Example {
     public static final native void callmeback(
             @JniArg(cast="void (*)(int)", flags = ArgFlag.POINTER_ARG)
             long ptr);
+    
+//    int callproduct(t_somefunc prod) {
+    public static final native int callproduct(
+        @JniArg(cast="int(*)(int, int)", flags = ArgFlag.POINTER_ARG)
+        long ptr);
 
     @JniClass(flags={ClassFlag.STRUCT, ClassFlag.CPP})
     static class Range {
@@ -331,8 +337,6 @@ public class Example {
 
         @JniMethod(flags={MethodFlag.CPP_METHOD})
         public static final native void dump(long ptr);
-
-
     }
 
     public static final native void passingtheenv (String msg, JNIEnv env);

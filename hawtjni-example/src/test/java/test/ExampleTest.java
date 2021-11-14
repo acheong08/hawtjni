@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 import static test.Example.*;
 
 import org.fusesource.hawtjni.runtime.Callback;
-import org.fusesource.hawtjni.runtime.JNIEnv;
 import org.junit.Test;
 import static org.fusesource.hawtjni.runtime.PointerMath.*;
 
@@ -54,6 +53,11 @@ public class ExampleTest {
         assertEquals(69, instanceCallbackResult);
         callback.dispose();
 
+        callback = new Callback(this, "productCallback", 2);
+        int product = callproduct(callback.getAddress());
+        assertEquals(6, product);
+        callback.dispose();
+        
         long r1 = Range.Range();
         Range.dump(r1);
 
@@ -78,6 +82,13 @@ public class ExampleTest {
     public long instanceCallback(long value) {
         this.instanceCallbackResult = (int) value;
         return 0;
+    }
+    
+    public long productCallback(long u, long v) {
+      int iu = (int)u;
+      int iv = (int)v;
+      
+      return iu * iv;
     }
     
     static public long staticCallback(long value) {

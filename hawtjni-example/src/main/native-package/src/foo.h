@@ -47,11 +47,15 @@ struct foo * foo_add(struct foo *arg, int count);
 char * char_add(char *arg, int count);
 
 void print_foo(struct foo *arg);
-long foowork(struct foo **arg, int count);
+size_t foowork(struct foo **arg, int count);
 
 void callmeback(void (*thecallback)(int number));
 
 void passingtheenv (const char *who, JNIEnv *env);
+
+typedef int(*t_somefunc)(int, int);
+
+int callproduct(t_somefunc prod);
 
 #ifdef __cplusplus
 } /* extern "C" */
