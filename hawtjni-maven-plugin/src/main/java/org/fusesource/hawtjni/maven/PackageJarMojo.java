@@ -43,7 +43,7 @@ import org.fusesource.hawtjni.runtime.Library;
  * 
  * @author <a href="http://hiramchirino.com">Hiram Chirino</a>
  */
-@Mojo(name = "package-jar", defaultPhase = LifecyclePhase.PREPARE_PACKAGE)
+@Mojo(name = "package-jar", defaultPhase = LifecyclePhase.PREPARE_PACKAGE, threadSafe = true)
 public class PackageJarMojo extends AbstractMojo {
 
     /**

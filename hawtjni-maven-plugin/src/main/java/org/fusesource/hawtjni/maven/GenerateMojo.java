@@ -49,7 +49,7 @@ import org.fusesource.hawtjni.generator.ProgressMonitor;
  * 
  * @author <a href="http://hiramchirino.com">Hiram Chirino</a>
  */
-@Mojo(name = "generate", defaultPhase = LifecyclePhase.PROCESS_CLASSES)
+@Mojo(name = "generate", defaultPhase = LifecyclePhase.PROCESS_CLASSES, threadSafe = true)
 public class GenerateMojo extends AbstractMojo {
 
     /**
