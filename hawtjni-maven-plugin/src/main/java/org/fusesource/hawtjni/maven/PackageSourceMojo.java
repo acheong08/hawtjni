@@ -36,7 +36,7 @@ import org.codehaus.plexus.archiver.manager.ArchiverManager;
  * 
  * @author <a href="http://hiramchirino.com">Hiram Chirino</a>
  */
-@Mojo(name = "package-source", defaultPhase = LifecyclePhase.PACKAGE, threadSafe = true)
+@Mojo(name = "package-source", defaultPhase = LifecyclePhase.PACKAGE)
 public class PackageSourceMojo extends AbstractMojo {
 
     /**

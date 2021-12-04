@@ -50,7 +50,7 @@ import org.fusesource.hawtjni.runtime.Library;
  * 
  * @author <a href="http://hiramchirino.com">Hiram Chirino</a>
  */
-@Mojo(name = "build", defaultPhase = LifecyclePhase.GENERATE_TEST_RESOURCES, threadSafe = true)
+@Mojo(name = "build", defaultPhase = LifecyclePhase.GENERATE_TEST_RESOURCES)
 public class BuildMojo extends AbstractMojo {
 
     /**
