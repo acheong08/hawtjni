@@ -359,15 +359,7 @@ public class Library {
     }
 
     private String map(String libName) {
-        /*
-         * libraries in the Macintosh use the extension .jnilib but the some
-         * VMs map to .dylib.
-         */
         libName = System.mapLibraryName(libName);
-        String ext = ".dylib";
-        if (libName.endsWith(ext)) {
-            libName = libName.substring(0, libName.length() - ext.length()) + ".jnilib";
-        }
         return libName;
     }
 

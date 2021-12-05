@@ -137,12 +137,12 @@ AC_DEFUN([CHECK_JNI_JDK],[
     ],[ 
     
       JNI_JDK=$"$__JNI_JDK_HOME"
-      JNI_EXTRA_CFLAGS="$__JNI_CFLAGS"    
+      JNI_EXTRA_CFLAGS="$__JNI_CFLAGS"
       AC_SUBST(JNI_JDK)
       AC_SUBST(JNI_EXTRA_CFLAGS)
       case $host_os in
         darwin*)
-            JNI_EXTRA_LDFLAGS="-shrext .jnilib -dynamiclib" ;;
+            JNI_EXTRA_LDFLAGS="-dynamiclib" ;;
       esac
       AC_SUBST(JNI_EXTRA_LDFLAGS)
       
@@ -158,6 +158,5 @@ AC_DEFUN([CHECK_JNI_JDK],[
   ],[
     AC_MSG_RESULT([no])
     $3
-  ])    
+  ])
 ])
-
