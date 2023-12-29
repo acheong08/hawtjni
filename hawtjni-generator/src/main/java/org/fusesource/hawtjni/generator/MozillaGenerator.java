@@ -225,7 +225,7 @@ public class MozillaGenerator {
                 vtbl += ", ";
         }
         vtbl += ");";
-        Integer key = new Integer(argTypes.length);
+        Integer key = Integer.valueOf(argTypes.length);
         TreeSet<String> list = vtbls.get(key);
         if (list == null) {
             list = new TreeSet<String>();
