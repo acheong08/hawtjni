@@ -4,6 +4,8 @@ HawtJNI
 Description
 -----------
 
+This is my fork that works with JDK 21.
+
 [HawtJNI][1] is a code generator that produces the JNI code needed to implement java native methods.  It is based on the [jnigen][2] code generator that is part of the SWT Tools 
 project which is used to generate all the JNI code which powers the eclipse platform.
 
