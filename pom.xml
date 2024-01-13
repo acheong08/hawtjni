@@ -96,7 +96,7 @@
         <repository>
             <id>github</id>
             <name>GitHub Packages</name>
-            <url>https://maven.pkg.github.com/acheong08/cubiomes</url>
+            <url>https://maven.pkg.github.com/acheong08/hawtjni</url>
         </repository>
 				<snapshotRepository>
             <id>github</id>
