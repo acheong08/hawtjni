@@ -94,15 +94,10 @@
 
     <distributionManagement>
         <repository>
-            <id>sonatype-nexus-staging</id>
-            <name>Sonatype Staging Repository</name>
-            <url> https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+            <id>github</id>
+            <name>GitHub Packages</name>
+            <url>https://maven.pkg.github.com/acheong08/cubiomes</url>
         </repository>
-        <snapshotRepository>
-            <id>sonatype-nexus-snapshots</id>
-            <name>Sonatype Snapshot Repository</name>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
     </distributionManagement>
   
     <developers>
@@ -242,7 +237,6 @@
         <module>hawtjni-runtime</module>
         <module>hawtjni-generator</module>
         <module>hawtjni-maven-plugin</module>
-        <module>hawtjni-example</module>
         <!--
     <module>hawtjni-website</module>
         -->
