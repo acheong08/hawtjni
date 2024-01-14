@@ -84,29 +84,6 @@ AC_DEFUN([WITH_OSX_UNIVERSAL],
       OSX_UNIVERSAL=""
       AC_MSG_RESULT([no])
     ])
-    
-    AS_IF(test -n "$OSX_UNIVERSAL", [
-      for i in $OSX_UNIVERSAL ; do
-        CFLAGS="-arch $i $CFLAGS"
-        CXXFLAGS="-arch $i $CXXFLAGS"
-        LDFLAGS="-arch $i $LDFLAGS"
-      done 
-      
-      
-      for f in $__JNI_INCLUDE_EXTRAS ; do
-        if test -d "$__JNI_INCLUDE/$f"; then
-          __JNI_CFLAGS="$__JNI_CFLAGS -I$__JNI_INCLUDE/$f"
-        fi
-      done
-
-      
-      CFLAGS="-isysroot ${OSX_SDKS_DIR}/MacOSX${OSX_VERSION}.sdk $CFLAGS"
-      CXXFLAGS="-isysroot ${OSX_SDKS_DIR}/MacOSX${OSX_VERSION}.sdk $CXXFLAGS"
-      LDFLAGS="-syslibroot,${OSX_SDKS_DIR}/MacOSX${OSX_VERSION}.sdk $LDFLAGS"
-      AC_SUBST(CFLAGS)
-      AC_SUBST(CXXFLAGS)
-      AC_SUBST(LDFLAGS)
-    ])
     ;;
   esac
 ])
