@@ -74,7 +74,7 @@ AC_DEFUN([WITH_OSX_UNIVERSAL],
         OSX_UNIVERSAL=""
         AC_MSG_RESULT([no])
       ], test "$withval" = "yes", [
-        OSX_UNIVERSAL="x86_64-apple-macos arm64-apple-macos"
+        OSX_UNIVERSAL="x86_64 arm64"
         AC_MSG_RESULT([yes, archs: $OSX_UNIVERSAL])
       ],[
         OSX_UNIVERSAL="$withval"
@@ -84,7 +84,7 @@ AC_DEFUN([WITH_OSX_UNIVERSAL],
       OSX_UNIVERSAL=""
       AC_MSG_RESULT([no])
     ])
-		AS_IF(test -n "$OSX_UNIVERSAL", [
+    AS_IF(test -n "$OSX_UNIVERSAL", [
       for i in $OSX_UNIVERSAL ; do
         CFLAGS="-arch $i $CFLAGS"
         CXXFLAGS="-arch $i $CXXFLAGS"
