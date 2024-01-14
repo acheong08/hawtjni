@@ -74,7 +74,7 @@ AC_DEFUN([WITH_OSX_UNIVERSAL],
         OSX_UNIVERSAL=""
         AC_MSG_RESULT([no])
       ], test "$withval" = "yes", [
-        OSX_UNIVERSAL="i386 x86_64"
+        OSX_UNIVERSAL="x86_64-apple-macos arm64-apple-macos"
         AC_MSG_RESULT([yes, archs: $OSX_UNIVERSAL])
       ],[
         OSX_UNIVERSAL="$withval"
@@ -83,6 +83,21 @@ AC_DEFUN([WITH_OSX_UNIVERSAL],
     ],[
       OSX_UNIVERSAL=""
       AC_MSG_RESULT([no])
+    ])
+		AS_IF(test -n "$OSX_UNIVERSAL", [
+      for i in $OSX_UNIVERSAL ; do
+        CFLAGS="-arch $i $CFLAGS"
+        CXXFLAGS="-arch $i $CXXFLAGS"
+        LDFLAGS="-arch $i $LDFLAGS"
+      done 
+      
+      
+      for f in $__JNI_INCLUDE_EXTRAS ; do
+        if test -d "$__JNI_INCLUDE/$f"; then
+          __JNI_CFLAGS="$__JNI_CFLAGS -I$__JNI_INCLUDE/$f"
+        fi
+      done
+      
     ])
     ;;
   esac
