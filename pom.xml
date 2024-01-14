@@ -31,7 +31,11 @@
   
     <name>HawtJNI</name>
     <description>A JNI code generator based on the JNI generator used by the eclipse SWT project</description>
-
+		<repository>
+			<id>dev.duti.maven</id>
+			<name>Duti Maven</name>
+			<url>https://maven.duti.dev/releases</url>
+		</repository>
     <properties>
         <forge-project-id>hawtjni</forge-project-id>
         <forge-project-id-uc>HAWTJNI</forge-project-id-uc>
