@@ -21,7 +21,7 @@
     <parent>
         <groupId>org.fusesource.hawtjni</groupId>
         <artifactId>hawtjni-project</artifactId>
-        <version>1.20.1</version>
+        <version>1.21.0</version>
     </parent>
 
     <artifactId>hawtjni-generator</artifactId>
