@@ -9,7 +9,16 @@ This is my fork that works with JDK 21.
 [HawtJNI][1] is a code generator that produces the JNI code needed to implement java native methods.  It is based on the [jnigen][2] code generator that is part of the SWT Tools 
 project which is used to generate all the JNI code which powers the eclipse platform.
 
-[![Maven Central](https://img.shields.io/maven-central/v/org.fusesource.hawtjni/hawtjni-maven-plugin.svg?label=Maven%20Central)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22org.fusesource.hawtjni%22%20a%3A%22hawtjni-runtime%22)
+### Maven repsoitory:
+```xml
+<repository>
+  <id>dev.duti.maven-releases</id>
+  <name>Duti Maven</name>
+  <url>https://maven.duti.dev/releases</url>
+</repository>
+```
+
+Real world usage example: https://github.com/gptlang/cubiomes
 
 Features
 --------
